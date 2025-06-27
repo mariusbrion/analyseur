@@ -257,6 +257,39 @@
         #chartCanvas {
             max-height: 400px;
         }
+
+        /* Styles pour la carte */
+        .map-container {
+            margin-top: 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .map-description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .map-iframe {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -294,6 +327,23 @@
             </div>
 
             <div class="stats-grid" id="statsGrid" style="display: none;"></div>
+
+            <!-- Nouvelle section pour la carte -->
+            <div class="map-container">
+                <h3 class="map-title">Carte des Zones de Passage des Vélos</h3>
+                <p class="map-description">
+                    Cette carte montre les zones où les passages de vélos sont les plus fréquents. 
+                    Plus les hexagones sont sombres, plus les passages sont importants dans cette zone.
+                </p>
+                <iframe 
+                    class="map-iframe"
+                    width="100%" 
+                    height="500px" 
+                    src="https://studio.foursquare.com/map/public/1318295f-ba13-40df-a6d1-ea3315570c76/embed" 
+                    frameborder="0" 
+                    allowfullscreen>
+                </iframe>
+            </div>
         </div>
     </div>
 
