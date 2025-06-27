@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyseur de Distance Employés</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            border: 3px dashed #4facfe;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-section:hover {
+            border-color: #00f2fe;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%);
+            transform: translateY(-2px);
+        }
+
+        .upload-section.dragover {
+            border-color: #00f2fe;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.3) 0%, rgba(0, 242, 254, 0.3) 100%);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #4facfe;
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #2ed573 0%, #1e90ff 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        #chartCanvas {
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Analyseur de Distance Employés</h1>
+            <p>Visualisez les données de distance et temps de trajet de vos employés</p>
+        </div>
+
+        <div class="content">
+            <div class="upload-section" id="uploadSection">
+                <div class="upload-icon">📁</div>
+                <h3>Importez votre fichier CSV</h3>
+                <p>Glissez-déposez votre fichier ou cliquez pour le sélectionner</p>
+                <input type="file" id="fileInput" class="file-input" accept=".csv" />
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    Choisir un fichier
+                </button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Traitement des données en cours...</p>
+            </div>
+
+            <div class="controls" id="controls" style="display: none;">
+                <button class="toggle-btn active" id="distanceBtn">Distance (km)</button>
+                <button class="toggle-btn" id="timeBtn">Temps de trajet (min)</button>
+            </div>
+
+            <div class="chart-container" id="chartContainer" style="display: none;">
+                <h3 class="chart-title" id="chartTitle">Distribution par Distance</h3>
+                <canvas id="chartCanvas"></canvas>
+            </div>
+
+            <div class="stats-grid" id="statsGrid" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let csvData = [];
+        let currentChart = null;
+        let currentMode = 'distance';
+
+        const fileInput = document.getElementById('fileInput');
+        const uploadSection = document.getElementById('uploadSection');
+        const loading = document.getElementById('loading');
+        const controls = document.getElementById('controls');
+        const chartContainer = document.getElementById('chartContainer');
+        const statsGrid = document.getElementById('statsGrid');
+        const distanceBtn = document.getElementById('distanceBtn');
+        const timeBtn = document.getElementById('timeBtn');
+        const chartTitle = document.getElementById('chartTitle');
+
+        // Drag and drop functionality
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.name.toLowerCase().endsWith('.csv')) {
+                showError('Veuillez sélectionner un fichier CSV valide.');
+                return;
+            }
+
+            loading.style.display = 'block';
+            uploadSection.style.display = 'none';
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                dynamicTyping: true,
+                complete: function(results) {
+                    if (results.errors.length > 0) {
+                        showError('Erreur lors de la lecture du fichier CSV.');
+                        resetUpload();
+                        return;
+                    }
+
+                    csvData = results.data.filter(row => row.id && row.distance_km && row.duration_minutes);
+                    
+                    if (csvData.length === 0) {
+                        showError('Aucune donnée valide trouvée dans le fichier CSV.');
+                        resetUpload();
+                        return;
+                    }
+
+                    showSuccess(`${csvData.length} employés chargés avec succès !`);
+                    loading.style.display = 'none';
+                    controls.style.display = 'flex';
+                    updateChart();
+                }
+            });
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            document.querySelector('.content').insertBefore(errorDiv, uploadSection);
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success';
+            successDiv.textContent = message;
+            document.querySelector('.content').insertBefore(successDiv, uploadSection);
+            setTimeout(() => successDiv.remove(), 3000);
+        }
+
+        function resetUpload() {
+            loading.style.display = 'none';
+            uploadSection.style.display = 'block';
+            controls.style.display = 'none';
+            chartContainer.style.display = 'none';
+            statsGrid.style.display = 'none';
+        }
+
+        distanceBtn.addEventListener('click', () => {
+            currentMode = 'distance';
+            distanceBtn.classList.add('active');
+            timeBtn.classList.remove('active');
+            updateChart();
+        });
+
+        timeBtn.addEventListener('click', () => {
+            currentMode = 'time';
+            timeBtn.classList.add('active');
+            distanceBtn.classList.remove('active');
+            updateChart();
+        });
+
+        function categorizeData() {
+            const categories = {};
+            
+            if (currentMode === 'distance') {
+                categories['0-2 km'] = 0;
+                categories['2-5 km'] = 0;
+                categories['5-10 km'] = 0;
+                categories['10+ km'] = 0;
+
+                csvData.forEach(row => {
+                    const distance = parseFloat(row.distance_km);
+                    if (distance <= 2) categories['0-2 km']++;
+                    else if (distance <= 5) categories['2-5 km']++;
+                    else if (distance <= 10) categories['5-10 km']++;
+                    else categories['10+ km']++;
+                });
+            } else {
+                categories['0-10 min'] = 0;
+                categories['10-15 min'] = 0;
+                categories['15-20 min'] = 0;
+                categories['20+ min'] = 0;
+
+                csvData.forEach(row => {
+                    const duration = parseFloat(row.duration_minutes);
+                    if (duration <= 10) categories['0-10 min']++;
+                    else if (duration <= 15) categories['10-15 min']++;
+                    else if (duration <= 20) categories['15-20 min']++;
+                    else categories['20+ min']++;
+                });
+            }
+
+            return categories;
+        }
+
+        function updateChart() {
+            const categories = categorizeData();
+            const labels = Object.keys(categories);
+            const data = Object.values(categories);
+            const total = data.reduce((sum, value) => sum + value, 0);
+            const percentages = data.map(value => ((value / total) * 100).toFixed(1));
+
+            chartTitle.textContent = currentMode === 'distance' ? 
+                'Distribution par Distance' : 'Distribution par Temps de Trajet';
+
+            const ctx = document.getElementById('chartCanvas').getContext('2d');
+            
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            const gradients = [
+                ctx.createLinearGradient(0, 0, 0, 400),
+                ctx.createLinearGradient(0, 0, 0, 400),
+                ctx.createLinearGradient(0, 0, 0, 400),
+                ctx.createLinearGradient(0, 0, 0, 400)
+            ];
+
+            const colors = [
+                ['#4facfe', '#00f2fe'],
+                ['#43e97b', '#38f9d7'],
+                ['#fa709a', '#fee140'],
+                ['#a8edea', '#fed6e3']
+            ];
+
+            gradients.forEach((gradient, i) => {
+                gradient.addColorStop(0, colors[i][0]);
+                gradient.addColorStop(1, colors[i][1]);
+            });
+
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Nombre d\'employés',
+                        data: data,
+                        backgroundColor: gradients,
+                        borderColor: colors.map(color => color[0]),
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: 'white',
+                            bodyColor: 'white',
+                            borderColor: '#4facfe',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const percentage = percentages[context.dataIndex];
+                                    return `${context.parsed.y} employés (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                color: '#666'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#666',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutBounce'
+                    }
+                }
+            });
+
+            updateStats(categories, total, percentages);
+            chartContainer.style.display = 'block';
+            statsGrid.style.display = 'grid';
+        }
+
+        function updateStats(categories, total, percentages) {
+            const labels = Object.keys(categories);
+            const data = Object.values(categories);
+            
+            statsGrid.innerHTML = '';
+            
+            labels.forEach((label, index) => {
+                const statCard = document.createElement('div');
+                statCard.className = 'stat-card';
+                statCard.innerHTML = `
+                    <div class="stat-value">${data[index]}</div>
+                    <div class="stat-label">${label}<br>(${percentages[index]}%)</div>
+                `;
+                statsGrid.appendChild(statCard);
+            });
+
+            // Ajouter une carte pour le total
+            const totalCard = document.createElement('div');
+            totalCard.className = 'stat-card';
+            totalCard.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)';
+            totalCard.innerHTML = `
+                <div class="stat-value">${total}</div>
+                <div class="stat-label">Total Employés</div>
+            `;
+            statsGrid.appendChild(totalCard);
+        }
+    </script>
+</body>
+</html>
