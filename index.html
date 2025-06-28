@@ -328,7 +328,7 @@
 
             <div class="stats-grid" id="statsGrid" style="display: none;"></div>
 
-            <!-- Nouvelle section pour la carte -->
+            <!-- Section pour la carte -->
             <div class="map-container">
                 <h3 class="map-title">Carte des Zones de Passage des Vélos</h3>
                 <p class="map-description">
@@ -409,7 +409,13 @@
                         return;
                     }
 
-                    csvData = results.data.filter(row => row.id && row.distance_km && row.duration_minutes);
+                    // Filtrage amélioré pour ignorer la ligne d'en-tête et les lignes non valides
+                    csvData = results.data.filter(row => 
+                        row.id && 
+                        !isNaN(parseFloat(row.distance_km)) && 
+                        !isNaN(parseFloat(row.duration_minutes)) &&
+                        !(row.distance_km === "distance_km" && row.duration_minutes === "duration_minutes")
+                    );
                     
                     if (csvData.length === 0) {
                         showError('Aucune donnée valide trouvée dans le fichier CSV.');
