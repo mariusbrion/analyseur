@@ -290,6 +290,132 @@
             border: none;
             overflow: hidden;
         }
+
+        /* Nouveaux styles pour la section de personnalisation de carte */
+        .map-customization {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);
+            border-radius: 15px;
+            border: 2px solid rgba(79, 172, 254, 0.3);
+        }
+
+        .map-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .create-map-btn {
+            background: linear-gradient(135deg, #2ed573 0%, #17c0eb 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(46, 213, 115, 0.3);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .create-map-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 213, 115, 0.4);
+        }
+
+        .create-map-btn::before {
+            content: '🗺️';
+        }
+
+        .map-url-section {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .map-url-input {
+            flex: 1;
+            min-width: 300px;
+            padding: 12px 15px;
+            border: 2px solid #4facfe;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .map-url-input:focus {
+            border-color: #00f2fe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+        }
+
+        .load-map-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+            white-space: nowrap;
+        }
+
+        .load-map-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .load-map-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .instructions {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin: 5px 0;
+        }
+
+        .map-status {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .map-status.custom {
+            color: #2ed573;
+        }
+
+        .map-status.demo {
+            color: #ff9f43;
+        }
     </style>
 </head>
 <body>
@@ -335,7 +461,45 @@
                     Cette carte montre les zones où les passages de vélos sont les plus fréquents. 
                     Plus les hexagones sont sombres, plus les passages sont importants dans cette zone.
                 </p>
+                
+                <!-- Section de personnalisation de la carte -->
+                <div class="map-customization">
+                    <div class="map-buttons">
+                        <a href="http://studio.foursquare.com/map/" target="_blank" class="create-map-btn">
+                            Créer ma carte personnalisée
+                        </a>
+                    </div>
+                    
+                    <div class="map-url-section">
+                        <input 
+                            type="url" 
+                            id="mapUrlInput" 
+                            class="map-url-input" 
+                            placeholder="Collez ici le lien de votre carte Foursquare Studio (ex: https://studio.foursquare.com/map/public/...)"
+                        />
+                        <button class="load-map-btn" id="loadMapBtn">
+                            Charger ma carte
+                        </button>
+                    </div>
+                    
+                    <div class="instructions">
+                        <strong>Comment créer votre carte personnalisée :</strong>
+                        <ol>
+                            <li>Cliquez sur "Créer ma carte personnalisée" ci-dessus</li>
+                            <li>Créez votre carte sur Foursquare Studio</li>
+                            <li>Une fois votre carte terminée, cliquez sur "Share" ou "Partager"</li>
+                            <li>Copiez le lien public de votre carte</li>
+                            <li>Collez le lien dans le champ ci-dessus et cliquez sur "Charger ma carte"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="map-status demo" id="mapStatus">
+                    📍 Affichage de la carte de démonstration
+                </div>
+                
                 <iframe 
+                    id="mapIframe"
                     class="map-iframe"
                     width="100%" 
                     height="500px" 
@@ -364,6 +528,12 @@
         const bikeBtn = document.getElementById('bikeBtn');
         const chartTitle = document.getElementById('chartTitle');
 
+        // Nouveaux éléments pour la carte
+        const mapUrlInput = document.getElementById('mapUrlInput');
+        const loadMapBtn = document.getElementById('loadMapBtn');
+        const mapIframe = document.getElementById('mapIframe');
+        const mapStatus = document.getElementById('mapStatus');
+
         // Drag and drop functionality
         uploadSection.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -388,6 +558,99 @@
                 handleFile(e.target.files[0]);
             }
         });
+
+        // Fonctionnalité de carte personnalisée
+        loadMapBtn.addEventListener('click', loadCustomMap);
+        mapUrlInput.addEventListener('input', validateMapUrl);
+        mapUrlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loadCustomMap();
+            }
+        });
+
+        function validateMapUrl() {
+            const url = mapUrlInput.value.trim();
+            const isValid = url && (
+                url.includes('studio.foursquare.com/map/public/') ||
+                url.includes('foursquare.com')
+            );
+            
+            loadMapBtn.disabled = !isValid;
+            
+            if (url && !isValid) {
+                mapUrlInput.style.borderColor = '#ff6b6b';
+            } else {
+                mapUrlInput.style.borderColor = '#4facfe';
+            }
+        }
+
+        function loadCustomMap() {
+            const url = mapUrlInput.value.trim();
+            
+            if (!url) {
+                showError('Veuillez entrer un lien de carte valide.');
+                return;
+            }
+
+            // Extraire l'ID de la carte du lien
+            let embedUrl = '';
+            
+            if (url.includes('/embed')) {
+                // Le lien est déjà un lien d'intégration
+                embedUrl = url;
+            } else if (url.includes('studio.foursquare.com/map/public/')) {
+                // Convertir le lien public en lien d'intégration
+                const mapId = extractMapId(url);
+                if (mapId) {
+                    embedUrl = `https://studio.foursquare.com/map/public/${mapId}/embed`;
+                }
+            } else {
+                showError('Format de lien non reconnu. Utilisez un lien Foursquare Studio valide.');
+                return;
+            }
+
+            if (embedUrl) {
+                mapIframe.src = embedUrl;
+                mapStatus.textContent = '✅ Votre carte personnalisée est chargée';
+                mapStatus.className = 'map-status custom';
+                showSuccess('Carte personnalisée chargée avec succès !');
+                
+                // Sauvegarder l'URL dans le stockage local du navigateur
+                try {
+                    const mapData = { url: embedUrl, timestamp: Date.now() };
+                    // Note: localStorage n'est pas disponible dans les artifacts Claude
+                    // Les données sont stockées uniquement pendant la session
+                    window.customMapData = mapData;
+                } catch (e) {
+                    console.log('Stockage local non disponible');
+                }
+            } else {
+                showError('Impossible d\'extraire l\'ID de la carte du lien fourni.');
+            }
+        }
+
+        function extractMapId(url) {
+            const match = url.match(/\/public\/([a-f0-9-]+)/);
+            return match ? match[1] : null;
+        }
+
+        // Charger la carte sauvegardée au démarrage (si disponible)
+        function loadSavedMap() {
+            try {
+                if (window.customMapData) {
+                    const savedMap = window.customMapData;
+                    // Vérifier si la carte a été sauvegardée récemment (dans les 7 derniers jours)
+                    const oneWeek = 7 * 24 * 60 * 60 * 1000;
+                    if (Date.now() - savedMap.timestamp < oneWeek) {
+                        mapIframe.src = savedMap.url;
+                        mapStatus.textContent = '✅ Votre carte personnalisée (sauvegardée)';
+                        mapStatus.className = 'map-status custom';
+                    }
+                }
+            } catch (e) {
+                console.log('Aucune carte sauvegardée trouvée');
+            }
+        }
 
         function handleFile(file) {
             if (!file.name.toLowerCase().endsWith('.csv')) {
@@ -672,6 +935,9 @@
             `;
             statsGrid.appendChild(totalCard);
         }
+
+        // Charger la carte sauvegardée au démarrage
+        window.addEventListener('load', loadSavedMap);
     </script>
 </body>
 </html>
