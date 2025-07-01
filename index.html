@@ -384,6 +384,30 @@
         .map-status.demo {
             color: #ff9f43;
         }
+        .guide-btn {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(168, 237, 234, 0.3);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .guide-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168, 237, 234, 0.4);
+        }
+        .guide-btn::before {
+            content: '📖';
+        }
     </style>
 </head>
 <body>
@@ -445,14 +469,9 @@
                         </button>
                     </div>
                     <div class="instructions">
-                        <strong>Comment créer votre carte personnalisée :</strong>
-                        <ol>
-                            <li>Cliquez sur "Créer ma carte personnalisée" ci-dessus</li>
-                            <li>Créez votre carte sur Foursquare Studio</li>
-                            <li>Une fois votre carte terminée, cliquez sur "Share" ou "Partager"</li>
-                            <li>Copiez le lien public de votre carte</li>
-                            <li>Collez le lien dans le champ ci-dessus et cliquez sur "Charger ma carte"</li>
-                        </ol>
+                        <a href="https://mariusbrion.github.io/guide_carte/" target="_blank" class="guide-btn">
+                            Guide pour créer votre carte personnalisée
+                        </a>
                     </div>
                 </div>
                 <div class="map-status demo" id="mapStatus">
