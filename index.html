@@ -388,7 +388,7 @@
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
             color: #333;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 50px;
             border-radius: 25px;
             font-size: 1rem;
             font-weight: 600;
@@ -407,6 +407,36 @@
         }
         .guide-btn::before {
             content: '📖';
+        }
+        .signature {
+            text-align: center;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease 0.3s;
+        }
+        .signature a {
+            display: inline-block;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.1);
+            backdrop-filter: blur(3px);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .signature a:hover {
+            background: rgba(102, 126, 234, 0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 768px) {
+            .signature {
+                margin: 20px 10px;
+            }
         }
     </style>
 </head>
@@ -487,33 +517,14 @@
                     allowfullscreen>
                 </iframe>
             </div>
-            <!-- Signature avec lien vers portfolio -->
-            <div class="signature" style="
-                text-align: center;
-                margin: 40px 0 20px;
-                opacity: 0;
-                transform: translateY(20px);
-                transition: all 0.6s ease 0.3s;
-            ">
-                <a href="https://mariusbrion.github.io/portfolio/" target="_blank" style="
-                    display: inline-block;
-                    color: rgba(255,255,255,0.8);
-                    font-size: 0.9rem;
-                    letter-spacing: 1px;
-                    padding: 8px 20px;
-                    border-radius: 20px;
-                    background: rgba(0,0,0,0.1);
-                    backdrop-filter: blur(3px);
-                    text-decoration: none;
-                    transition: all 0.3s ease;
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                " onmouseover="this.style.background='rgba(102, 126, 234, 0.3)'; this.style.color='white'" 
-                  onmouseout="this.style.background='rgba(0,0,0,0.1)'; this.style.color='rgba(255,255,255,0.8)'">
-                    <span style="font-weight:500">Design & développement</span> 
-                    <span style="font-weight:600;color:#fff;margin-left:4px">Marius Brion</span>
-                </a>
-            </div>
         </div>
+    </div>
+    <!-- Signature avec lien vers portfolio -->
+    <div class="signature">
+        <a href="https://mariusbrion.github.io/portfolio/" target="_blank">
+            <span style="font-weight:500">Design & développement</span> 
+            <span style="font-weight:600;color:#fff;margin-left:4px">Marius Brion</span>
+        </a>
     </div>
     <script>
         let csvData = [];
