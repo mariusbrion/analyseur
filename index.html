@@ -487,6 +487,32 @@
                     allowfullscreen>
                 </iframe>
             </div>
+            <!-- Signature avec lien vers portfolio -->
+            <div class="signature" style="
+                text-align: center;
+                margin: 40px 0 20px;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.6s ease 0.3s;
+            ">
+                <a href="https://mariusbrion.github.io/portfolio/" target="_blank" style="
+                    display: inline-block;
+                    color: rgba(255,255,255,0.8);
+                    font-size: 0.9rem;
+                    letter-spacing: 1px;
+                    padding: 8px 20px;
+                    border-radius: 20px;
+                    background: rgba(0,0,0,0.1);
+                    backdrop-filter: blur(3px);
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                " onmouseover="this.style.background='rgba(102, 126, 234, 0.3)'; this.style.color='white'" 
+                  onmouseout="this.style.background='rgba(0,0,0,0.1)'; this.style.color='rgba(255,255,255,0.8)'">
+                    <span style="font-weight:500">Design & développement</span> 
+                    <span style="font-weight:600;color:#fff;margin-left:4px">Marius Brion</span>
+                </a>
+            </div>
         </div>
     </div>
     <script>
@@ -885,7 +911,14 @@
             `;
             statsGrid.appendChild(totalCard);
         }
-        window.addEventListener('load', loadSavedMap);
+        window.addEventListener('load', function() {
+            loadSavedMap();
+            const signature = document.querySelector('.signature');
+            setTimeout(() => {
+                signature.style.opacity = '1';
+                signature.style.transform = 'translateY(0)';
+            }, 1200);
+        });
     </script>
 </body>
 </html>
