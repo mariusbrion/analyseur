@@ -614,9 +614,11 @@
         }
 
         function generateTimeComment(normalStats, bikeStats) {
+            const totalEmployees = normalStats.total;
             const under15Car = normalStats.percentages['0-10 min'] + normalStats.percentages['10-15 min'];
             const under15Bike = bikeStats.percentages['0-10 min'] + bikeStats.percentages['10-15 min'];
             const under20Bike = under15Bike + bikeStats.percentages['15-20 min'];
+            const countUnder20Bike = Math.round((under20Bike / 100) * totalEmployees);
             
             let text = `Impact du temps de trajet : Actuellement, ${under15Car.toFixed(1)}% des trajets sont inférieurs à 15 minutes. `;
             
@@ -624,18 +626,23 @@
                 const gain = (under15Bike - under15Car).toFixed(1);
                 text += `L'introduction du vélo électrique permettrait d'augmenter cette proportion de +${gain} points. `;
                 
-                // Nuance intermédiaire 15-20 min
-                if (bikeStats.percentages['15-20 min'] > 10) {
-                     text += `De plus, une part significative des collaborateurs (${bikeStats.percentages['15-20 min'].toFixed(1)}%) se retrouverait dans la tranche confortable de 15 à 20 minutes. `;
+                // Nuance intermédiaire 15-20 min ou faible proportion < 15min
+                if (under15Bike < 15) {
+                    text += `Bien que la part des trajets de moins de 15 minutes reste modeste, l'assistance électrique permettrait à ${countUnder20Bike} employés de se rendre au travail en moins de 20 minutes. Ce temps de trajet reste extrêmement crédible et attractif pour la grande majorité de la population. `;
+                } else {
+                    text += `Concrètement, l'assistance électrique permettrait à ${countUnder20Bike} employés de se rendre au travail en moins de 20 minutes. `;
                 }
 
-                text += "Le gain de fluidité et la réduction de la fatigue liée aux embouteillages sont des facteurs clés de qualité de vie au travail (QVT). ";
-                text += "Le vélo électrique nivelle les temps de parcours en s'affranchissant des aléas du trafic automobile.";
+                text += "Le gain de fluidité et la réduction de la fatigue liée aux embouteillages sont des facteurs clés de qualité de vie au travail (QVT). Le vélo électrique nivelle les temps de parcours en s'affranchissant des aléas du trafic automobile.";
             } else {
-                text += "Le passage au vélo électrique maintient des temps de parcours compétitifs tout en garantissant une prédictibilité des horaires d'arrivée et une régularité précieuse pour les collaborateurs.";
+                text += `Le passage au vélo électrique maintient des temps de parcours compétitifs en permettant à ${countUnder20Bike} employés de se rendre au travail en moins de 20 minutes tout en garantissant une prédictibilité des horaires d'arrivée et une régularité précieuse pour les collaborateurs. `;
+                
+                if (under15Bike < 10 && under20Bike > 30) {
+                    text += "Même si les trajets de moins de 15 minutes sont peu nombreux, la durée de moins de 20 minutes constitue un seuil de basculement très réaliste pour la grande majorité de la population active.";
+                }
             }
             return text;
         }
     </script>
 </body>
-</html>
+</html>eof
