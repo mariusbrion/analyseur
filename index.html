@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
-    <!-- Nouvelles bibliothèques pour l'export PDF -->
+    <!-- Bibliothèques pour l'export PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -379,7 +379,12 @@
                         borderRadius: 10
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 100 } } }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { legend: { display: false } }, // Restauration du masquage de la légende
+                    scales: { y: { max: 100 } } 
+                }
             });
             updateStats(categories, total, Object.values(percentages));
             chartContainer.style.display = 'block';
@@ -411,14 +416,26 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
                 const margin = 20;
                 const softBlue = [79, 172, 254]; // Bleu clair moderne
 
+                // Fonction pour ajouter le footer sur chaque page
+                const addFooter = () => {
+                    const footerText = "Outil développé dans le cadre du CAVENA, faisant partie des moyens de diagnostic validés par la FUB pour la certification du label Employeur Pro Vélo.";
+                    doc.setFont("helvetica", "normal");
+                    doc.setFontSize(8);
+                    doc.setTextColor(150, 150, 150);
+                    // On split le texte si trop long, mais ici ça devrait tenir
+                    const splitFooter = doc.splitTextToSize(footerText, pageWidth - (margin * 2));
+                    doc.text(splitFooter, pageWidth / 2, pageHeight - 12, { align: 'center' });
+                };
+
                 // --- PAGE 1: COUVERTURE ---
-                doc.setFillColor(255, 255, 255); // Fond blanc pour être soft
+                doc.setFillColor(255, 255, 255); 
                 doc.rect(0, 0, pageWidth, 40, 'F');
                 
-                doc.setTextColor(...softBlue); // Bleu moderne
+                doc.setTextColor(...softBlue); 
                 doc.setFontSize(22);
                 doc.setFont("helvetica", "bold");
                 doc.text("Rapport de diagnostic de mobilité", pageWidth / 2, 25, { align: 'center' });
@@ -426,7 +443,6 @@
                 doc.setTextColor(80, 80, 80);
                 doc.setFontSize(12);
                 doc.setFont("helvetica", "normal");
-                // Modif demandé : Ajout "par l'outil Marius"
                 doc.text(`Rapport généré le ${new Date().toLocaleDateString()} par l'outil Marius`, margin, 55);
                 doc.text(`Effectif analysé : ${csvData.length} collaborateurs`, margin, 62);
                 
@@ -442,27 +458,27 @@
                 doc.setFont("helvetica", "bold");
                 doc.text("1. ANALYSE DES DISTANCES", margin, 85);
                 
-                // Graphique Distance
                 doc.addImage(distImg, 'PNG', margin, 90, pageWidth - (margin*2), 70);
                 
-                // Commentaire Distance (Version détaillée restaurée)
+                // Commentaire Distance Nuancé
                 const distComment = generateDistanceComment(distStats);
                 doc.setFont("helvetica", "italic");
                 doc.setFontSize(10);
                 doc.setTextColor(100, 100, 100);
                 const splitDist = doc.splitTextToSize(distComment, pageWidth - (margin*2));
                 doc.text(splitDist, margin, 165);
+                
+                addFooter();
 
                 // --- PAGE 2: ANALYSE TEMPS ---
                 doc.addPage();
                 
-                // Header Page 2
                 doc.setFontSize(14);
                 doc.setTextColor(...softBlue);
                 doc.setFont("helvetica", "bold");
                 doc.text("2. ANALYSE DES TEMPS DE TRAJET", margin, 20);
                 
-                // Graphique 1 : Vélo Musculaire (Standard)
+                // Graphique 1 : Vélo Musculaire
                 const timeStats = analyzeForReport('time', false);
                 const timeImg = await generateInvisibleChart('Temps Musculaire', timeStats, '#4facfe');
                 
@@ -471,16 +487,15 @@
                 doc.text("Situation actuelle (Vélo Musculaire / Standard)", margin, 30);
                 doc.addImage(timeImg, 'PNG', margin, 32, pageWidth - (margin*2), 65);
                 
-                // Commentaire explicatif (Version détaillée restaurée)
+                // Commentaire Temps Nuancé
                 const timeBikeStats = analyzeForReport('time', true);
                 const timeComment = generateTimeComment(timeStats, timeBikeStats);
                 doc.setFont("helvetica", "italic");
                 doc.setTextColor(100, 100, 100);
                 const splitTime = doc.splitTextToSize(timeComment, pageWidth - (margin*2));
-                // Positionnement du texte après le 1er graphique
                 doc.text(splitTime, margin, 105);
 
-                // Graphique 2 : Vélo Électrique (Ajout demandé pour comparaison)
+                // Graphique 2 : Vélo Électrique
                 const timeBikeImg = await generateInvisibleChart('Temps Électrique', timeBikeStats, '#2ed573');
                 
                 doc.setFont("helvetica", "bold");
@@ -488,6 +503,8 @@
                 doc.text("Projection comparative avec Assistance Électrique (VAE)", margin, 140);
                 
                 doc.addImage(timeBikeImg, 'PNG', margin, 142, pageWidth - (margin*2), 65);
+                
+                addFooter();
 
                 // --- PAGE 3: CARTE ---
                 doc.addPage();
@@ -495,12 +512,13 @@
                 doc.setTextColor(...softBlue);
                 doc.text("3. CARTE DE CHALEUR DES FLUX", margin, 30);
                 
-                // Placeholder
                 doc.setDrawColor(220, 220, 220);
                 doc.rect(margin, 40, pageWidth - (margin*2), 100);
                 doc.setFontSize(10);
                 doc.setTextColor(180, 180, 180);
                 doc.text("Insérer ici la capture d'écran de l'interface interactive", pageWidth/2, 90, {align:'center'});
+
+                addFooter();
 
                 doc.save("Diagnostic_Mobilite_Marius.pdf");
                 showSuccess("PDF généré avec succès !");
@@ -566,36 +584,55 @@
             });
         }
 
-        // --- RESTAURATION DES PHRASES D'ANALYSE DÉTAILLÉES DEMANDÉES ---
+        // --- GENERATION DES COMMENTAIRES NUANCÉS (MIS À JOUR) ---
 
         function generateDistanceComment(stats) {
             const shortDist = stats.percentages['0-2 km'] + stats.percentages['2-5 km'];
+            const mediumDist = stats.percentages['5-10 km'];
+            const under10 = shortDist + mediumDist;
+
             let text = `Analyse de la répartition géographique : ${shortDist.toFixed(1)}% des effectifs résident à moins de 5km du site. `;
-            
+
             if (shortDist > 30) {
                 text += "Ceci représente un gisement très important pour le report modal vers le vélo musculaire ou électrique. ";
-                text += `Concrètement, cela concerne environ ${Math.round((shortDist/100)*stats.total)} collaborateurs qui pourraient abandonner la voiture individuelle.`;
+                text += `Concrètement, cela concerne environ ${Math.round((shortDist/100)*stats.total)} collaborateurs qui pourraient abandonner la voiture individuelle. `;
             } else if (shortDist > 15) {
-                text += "Un potentiel modéré mais existant pour la mobilité douce. Des actions ciblées sur ces profils sont recommandées.";
+                text += "Un potentiel modéré mais existant pour la mobilité douce de proximité. ";
             } else {
-                text += "L'éloignement géographique est marqué. Le covoiturage semble être la solution la plus pertinente à court terme.";
+                text += "L'éloignement géographique est marqué sur la très courte distance. ";
             }
+
+            // Nuance 5-10km (Urban/Compétitif)
+            if (mediumDist > 10 || under10 > 40) {
+                text += `Si l'on élargit le périmètre, notons que ${under10.toFixed(1)}% des effectifs se situent à moins de 10km. `;
+                text += "En milieu urbain, ce sont des distances (5-10km) où le vélo est souvent plus compétitif que la voiture en temps de trajet réel, tout en restant réalisable par la très grande majorité de la population, particulièrement avec l'assistance électrique. ";
+            } else {
+                text += "Au-delà de 10km, le covoiturage ou les transports en commun deviennent des options stratégiques plus pertinentes. ";
+            }
+
             return text;
         }
 
         function generateTimeComment(normalStats, bikeStats) {
             const under15Car = normalStats.percentages['0-10 min'] + normalStats.percentages['10-15 min'];
             const under15Bike = bikeStats.percentages['0-10 min'] + bikeStats.percentages['10-15 min'];
+            const under20Bike = under15Bike + bikeStats.percentages['15-20 min'];
             
             let text = `Impact du temps de trajet : Actuellement, ${under15Car.toFixed(1)}% des trajets sont inférieurs à 15 minutes. `;
             
             if (under15Bike > under15Car) {
                 const gain = (under15Bike - under15Car).toFixed(1);
                 text += `L'introduction du vélo électrique permettrait d'augmenter cette proportion de +${gain} points. `;
+                
+                // Nuance intermédiaire 15-20 min
+                if (bikeStats.percentages['15-20 min'] > 10) {
+                     text += `De plus, une part significative des collaborateurs (${bikeStats.percentages['15-20 min'].toFixed(1)}%) se retrouverait dans la tranche confortable de 15 à 20 minutes. `;
+                }
+
                 text += "Le gain de fluidité et la réduction de la fatigue liée aux embouteillages sont des facteurs clés de qualité de vie au travail (QVT). ";
                 text += "Le vélo électrique nivelle les temps de parcours en s'affranchissant des aléas du trafic automobile.";
             } else {
-                text += "Le passage au vélo électrique maintient des temps de parcours compétitifs tout en garantissant une prédictibilité des horaires d'arrivée.";
+                text += "Le passage au vélo électrique maintient des temps de parcours compétitifs tout en garantissant une prédictibilité des horaires d'arrivée et une régularité précieuse pour les collaborateurs.";
             }
             return text;
         }
