@@ -59,51 +59,25 @@
         .map-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
         .create-map-btn { background: linear-gradient(135deg, #2ed573 0%, #17c0eb 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(46, 213, 115, 0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
         .create-map-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(46, 213, 115, 0.4); }
-        .create-map-btn::before { content: '🗺️'; }
         .reset-map-btn { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-        .reset-map-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4); }
-        .reset-map-btn::before { content: '🔄'; }
         .map-url-section { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
         .map-url-input { flex: 1; min-width: 300px; padding: 12px 15px; border: 2px solid #4facfe; border-radius: 25px; font-size: 1rem; outline: none; transition: all 0.3s ease; }
         .map-url-input:focus { border-color: #00f2fe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2); }
         .load-map-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3); white-space: nowrap; }
         .load-map-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4); }
         .load-map-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
-        .instructions { margin-top: 15px; padding: 15px; background: rgba(255, 255, 255, 0.8); border-radius: 10px; font-size: 0.9rem; color: #555; line-height: 1.5; }
-        .instructions ol { margin: 10px 0; padding-left: 20px; }
-        .instructions li { margin: 5px 0; }
-        .map-status { text-align: center; margin-top: 10px; font-weight: 600; }
-        .map-status.custom { color: #2ed573; }
-        .map-status.demo { color: #ff9f43; }
-        .guide-btn { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; border: none; padding: 12px 300px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(168, 237, 234, 0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; }
-        .guide-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(168, 237, 234, 0.4); }
-        .guide-btn::before { content: '📖'; }
-        .signature { text-align: center; margin: 20px 0; opacity: 0; transform: translateY(20px); transition: all 0.6s ease 0.3s; }
-        .signature a { display: inline-block; color: rgba(255,255,255,0.8); font-size: 0.9rem; letter-spacing: 1px; padding: 8px 20px; border-radius: 20px; background: rgba(0,0,0,0.1); backdrop-filter: blur(3px); text-decoration: none; transition: all 0.3s ease; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .signature a:hover { background: rgba(102, 126, 234, 0.3); color: white; transform: translateY(-2px); }
+        .guide-btn { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; border: none; padding: 12px 20px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(168, 237, 234, 0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; }
+        .signature { text-align: center; margin: 20px 0; opacity: 1; transition: all 0.6s ease 0.3s; }
+        .signature a { display: inline-block; color: rgba(255,255,255,0.8); font-size: 0.9rem; letter-spacing: 1px; padding: 8px 20px; border-radius: 20px; background: rgba(0,0,0,0.1); backdrop-filter: blur(3px); text-decoration: none; transition: all 0.3s ease; }
         
-        /* --- STYLE PDF BOUTON --- */
-        .pdf-btn {
-            background: linear-gradient(135deg, #4facfe 0%, #4facfe 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .pdf-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
-            filter: brightness(1.1);
-        }
-        .pdf-btn::before { content: '📄'; }
+        /* --- NOUVEAUX STYLES AUTH --- */
+        .login-bar { background: #f8f9fa; padding: 10px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: flex-end; gap: 10px; align-items: center; font-size: 0.9rem; }
+        .auth-input { padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; transition: border 0.3s; width: 150px; }
+        .auth-input:focus { border-color: #4facfe; }
+        .auth-btn { background: #4facfe; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: 600; }
+        .save-controls { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(79, 172, 254, 0.2); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .pdf-btn { background: linear-gradient(135deg, #4facfe 0%, #4facfe 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3); display: inline-flex; align-items: center; gap: 8px; }
+        .pdf-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4); filter: brightness(1.1); }
         
         @media (max-width: 768px) {
             .signature { margin: 20px 10px; }
@@ -113,6 +87,13 @@
 </head>
 <body>
     <div class="container">
+        <!-- Nouvelle barre de connexion -->
+        <div class="login-bar">
+            <span>Déjà un profil ?</span>
+            <input type="password" id="loginPassword" class="auth-input" placeholder="Mot de passe">
+            <button class="auth-btn" onclick="loginProfile()">Se connecter</button>
+        </div>
+
         <div class="header">
             <h1>📊 Analyseur de Distance Employés</h1>
             <p>Visualisez les données de distance et temps de trajet de vos employés</p>
@@ -127,11 +108,20 @@
                 <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
                     Choisir un fichier
                 </button>
+
+                <!-- Nouveaux champs de sauvegarde -->
+                <div class="save-controls" id="saveControls" style="display:none;">
+                    <p style="font-size: 0.9rem; color: #666;">Sauvegardez ce profil pour le consulter plus tard</p>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="password" id="savePassword" class="auth-input" placeholder="Mot de passe">
+                        <button class="auth-btn" style="background: #2ed573;" onclick="saveProfile()">Sauvegarder mon profil</button>
+                    </div>
+                </div>
             </div>
 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p>Traitement des données en cours...</p>
+                <p id="loadingText">Traitement des données en cours...</p>
             </div>
 
             <div class="controls" id="controls" style="display: none;">
@@ -154,59 +144,30 @@
                 <p class="map-description">
                     Cette carte montre les zones où les passages de vélos sont les plus fréquents. 
                 </p>
-
-                <!-- Section de personnalisation de la carte -->
                 <div class="map-customization">
                     <div class="map-buttons">
-                        <a href="http://studio.foursquare.com/map/" target="_blank" class="create-map-btn">
-                            Créer ma carte personnalisée
-                        </a>
-                        <button class="reset-map-btn" id="resetMapBtn">
-                            Revenir à la carte par défaut
-                        </button>
+                        <a href="http://studio.foursquare.com/map/" target="_blank" class="create-map-btn">Créer ma carte personnalisée</a>
+                        <button class="reset-map-btn" id="resetMapBtn">Revenir à la carte par défaut</button>
                     </div>
-
                     <div class="map-url-section">
-                        <input 
-                            type="url" 
-                            id="mapUrlInput" 
-                            class="map-url-input" 
-                            placeholder="Collez ici le lien de votre carte Foursquare Studio"
-                        />
-                        <button class="load-map-btn" id="loadMapBtn">
-                            Charger ma carte
-                        </button>
+                        <input type="url" id="mapUrlInput" class="map-url-input" placeholder="Collez ici le lien de votre carte Foursquare Studio" />
+                        <button class="load-map-btn" id="loadMapBtn">Charger ma carte</button>
                     </div>
-
                     <div class="instructions">
                         <a href="https://mariusbrion.github.io/guide_carte/" target="_blank" class="guide-btn">
                             Guide pour créer votre carte personnalisée
                         </a>
                     </div>
                 </div>
-
-                <div class="map-status demo" id="mapStatus">
-                    📍 Affichage de la carte de démonstration
-                </div>
-                
-                <iframe 
-                    id="mapIframe"
-                    class="map-iframe"
-                    width="100%" 
-                    height="500px" 
-                    src="https://studio.foursquare.com/map/public/1318295f-ba13-40df-a6d1-ea3315570c76/embed" 
-                    frameborder="0" 
-                    allowfullscreen>
-                </iframe>
+                <div class="map-status demo" id="mapStatus">📍 Affichage de la carte de démonstration</div>
+                <iframe id="mapIframe" class="map-iframe" width="100%" height="500px" src="https://studio.foursquare.com/map/public/1318295f-ba13-40df-a6d1-ea3315570c76/embed" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
-    <!-- Signature avec lien vers portfolio -->
     <div class="signature">
         <a href="https://mariusbrion.github.io/portfolio/" target="_blank">
-            <span style="font-weight:500">Design & développement</span> 
-            <span style="font-weight:600;color:#fff;margin-left:4px">Marius Brion</span>
+            <span style="font-weight:500">Design & développement</span> <span style="font-weight:600;color:#fff;margin-left:4px">Marius Brion</span>
         </a>
     </div>
 
@@ -214,7 +175,10 @@
     <div id="pdf-hidden-generator" style="position: absolute; left: -9999px; top: -9999px;"></div>
 
     <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwseAXEatxvOMtFrQbrruMENjEX1TajWd_TWlyxDLSo0ss1bxYQkN9pCrcOCAFppWKb/exec";
+
         let csvData = [];
+        let rawCsvContent = ""; // Stocke le texte brut du CSV pour la sauvegarde
         let currentChart = null;
         let currentMode = 'distance';
         let bikeMode = false;
@@ -222,6 +186,7 @@
         const fileInput = document.getElementById('fileInput');
         const uploadSection = document.getElementById('uploadSection');
         const loading = document.getElementById('loading');
+        const loadingText = document.getElementById('loadingText');
         const controls = document.getElementById('controls');
         const chartContainer = document.getElementById('chartContainer');
         const statsGrid = document.getElementById('statsGrid');
@@ -229,6 +194,7 @@
         const timeBtn = document.getElementById('timeBtn');
         const bikeBtn = document.getElementById('bikeBtn');
         const chartTitle = document.getElementById('chartTitle');
+        const saveControls = document.getElementById('saveControls');
         
         const mapUrlInput = document.getElementById('mapUrlInput');
         const loadMapBtn = document.getElementById('loadMapBtn');
@@ -236,6 +202,102 @@
         const mapStatus = document.getElementById('mapStatus');
         const resetMapBtn = document.getElementById('resetMapBtn');
         const pdfBtn = document.getElementById('pdfBtn');
+
+        // --- LOGIQUE DE SAUVEGARDE ET CONNEXION ---
+
+        async function saveProfile() {
+            const password = document.getElementById('savePassword').value;
+            if (!password) return alert("Veuillez entrer un mot de passe pour sauvegarder.");
+            if (!rawCsvContent) return alert("Aucune donnée CSV à sauvegarder.");
+
+            const payload = {
+                action: "save",
+                password: password,
+                csvContent: rawCsvContent,
+                mapUrl: mapUrlInput.value.trim()
+            };
+
+            loading.style.display = 'block';
+            loadingText.textContent = "Sauvegarde du profil...";
+
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(payload)
+                });
+                alert("Demande de sauvegarde envoyée !");
+            } catch (error) {
+                console.error("Erreur sauvegarde:", error);
+                alert("Erreur lors de la sauvegarde.");
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        async function loginProfile() {
+            const password = document.getElementById('loginPassword').value;
+            if (!password) return alert("Veuillez entrer votre mot de passe.");
+
+            loading.style.display = 'block';
+            loadingText.textContent = "Récupération de votre profil...";
+
+            try {
+                const response = await fetch(`${scriptURL}?password=${encodeURIComponent(password)}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    if (data.mapUrl) {
+                        mapUrlInput.value = data.mapUrl;
+                        loadCustomMap();
+                    }
+                    if (data.csvContent) {
+                        rawCsvContent = data.csvContent;
+                        handleCsvString(data.csvContent);
+                        // Réafficher uploadSection pour montrer les contrôles de sauvegarde
+                        uploadSection.style.display = 'block';
+                    }
+                } else {
+                    alert("Mot de passe incorrect ou profil inexistant.");
+                }
+            } catch (error) {
+                console.error("Erreur login:", error);
+                alert("Impossible de se connecter au serveur.");
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // --- GESTION DES FICHIERS ---
+
+        function handleFile(file) {
+            loading.style.display = 'block';
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                rawCsvContent = e.target.result;
+                handleCsvString(rawCsvContent);
+            };
+            reader.readAsText(file);
+        }
+
+        function handleCsvString(content) {
+            Papa.parse(content, {
+                header: true,
+                skipEmptyLines: true,
+                dynamicTyping: true,
+                complete: function(results) {
+                    csvData = results.data.filter(row => row.id && !isNaN(parseFloat(row.distance_km)));
+                    loading.style.display = 'none';
+                    // Ne pas masquer uploadSection complètement ici, mais masquer l'input file si besoin
+                    // Pour garder les boutons de sauvegarde accessibles :
+                    controls.style.display = 'flex';
+                    saveControls.style.display = 'flex';
+                    updateChart();
+                }
+            });
+        }
 
         function isLocalStorageAvailable() {
             try {
@@ -248,48 +310,25 @@
             }
         }
 
-        uploadSection.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadSection.classList.add('dragover');
-        });
+        // --- FONCTIONS EXISTANTES RESTAURÉES ---
 
-        uploadSection.addEventListener('dragleave', () => {
-            uploadSection.classList.remove('dragover');
-        });
-
+        uploadSection.addEventListener('dragover', (e) => { e.preventDefault(); uploadSection.classList.add('dragover'); });
+        uploadSection.addEventListener('dragleave', () => { uploadSection.classList.remove('dragover'); });
         uploadSection.addEventListener('drop', (e) => {
             e.preventDefault();
             uploadSection.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleFile(files[0]);
-            }
+            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
         });
 
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
-            }
+            if (e.target.files.length > 0) handleFile(e.target.files[0]);
         });
 
         loadMapBtn.addEventListener('click', loadCustomMap);
-        mapUrlInput.addEventListener('input', validateMapUrl);
-
-        resetMapBtn.addEventListener('click', () => {
-            mapIframe.src = 'https://studio.foursquare.com/map/public/1318295f-ba13-40df-a6d1-ea3315570c76/embed';
-            mapStatus.textContent = '📍 Affichage de la carte de démonstration';
-            mapStatus.className = 'map-status demo';
-            mapUrlInput.value = '';
-            if (isLocalStorageAvailable()) {
-                localStorage.removeItem('customMapData');
-            }
-        });
-
-        function validateMapUrl() {
+        mapUrlInput.addEventListener('input', () => {
             const url = mapUrlInput.value.trim();
-            const isValid = url && (url.includes('studio.foursquare.com') || url.includes('foursquare.com'));
-            loadMapBtn.disabled = !isValid;
-        }
+            loadMapBtn.disabled = !(url && (url.includes('studio.foursquare.com') || url.includes('foursquare.com')));
+        });
 
         function loadCustomMap() {
             const url = mapUrlInput.value.trim();
@@ -303,21 +342,13 @@
             mapStatus.className = 'map-status custom';
         }
 
-        function handleFile(file) {
-            loading.style.display = 'block';
-            uploadSection.style.display = 'none';
-            Papa.parse(file, {
-                header: true,
-                skipEmptyLines: true,
-                dynamicTyping: true,
-                complete: function(results) {
-                    csvData = results.data.filter(row => row.id && !isNaN(parseFloat(row.distance_km)));
-                    loading.style.display = 'none';
-                    controls.style.display = 'flex';
-                    updateChart();
-                }
-            });
-        }
+        resetMapBtn.addEventListener('click', () => {
+            mapIframe.src = 'https://studio.foursquare.com/map/public/1318295f-ba13-40df-a6d1-ea3315570c76/embed';
+            mapStatus.textContent = '📍 Affichage de la carte de démonstration';
+            mapStatus.className = 'map-status demo';
+            mapUrlInput.value = '';
+            if (isLocalStorageAvailable()) { localStorage.removeItem('customMapData'); }
+        });
 
         distanceBtn.addEventListener('click', () => {
             currentMode = 'distance';
@@ -373,18 +404,9 @@
                 type: 'bar',
                 data: {
                     labels: Object.keys(categories),
-                    datasets: [{
-                        data: Object.values(percentages),
-                        backgroundColor: '#4facfe',
-                        borderRadius: 10
-                    }]
+                    datasets: [{ data: Object.values(percentages), backgroundColor: '#4facfe', borderRadius: 10 }]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    plugins: { legend: { display: false } }, // Restauration du masquage de la légende
-                    scales: { y: { max: 100 } } 
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { max: 100 } } }
             });
             updateStats(categories, total, Object.values(percentages));
             chartContainer.style.display = 'block';
@@ -401,9 +423,7 @@
             });
         }
 
-        // -------------------------------------------------------------
-        // --- NOUVELLES FONCTIONS PDF MISE À JOUR ---
-        // -------------------------------------------------------------
+        // --- FONCTIONS PDF COMPLÈTES RESTAURÉES ---
 
         pdfBtn.addEventListener('click', exportFullAuditPDF);
 
@@ -418,23 +438,20 @@
                 const pageWidth = doc.internal.pageSize.getWidth();
                 const pageHeight = doc.internal.pageSize.getHeight();
                 const margin = 20;
-                const softBlue = [79, 172, 254]; // Bleu clair moderne
+                const softBlue = [79, 172, 254];
 
-                // Fonction pour ajouter le footer sur chaque page
                 const addFooter = () => {
                     const footerText = "Outil développé dans le cadre du CAVENA, faisant partie des moyens de diagnostic validés par la FUB pour la certification du label Employeur Pro Vélo.";
                     doc.setFont("helvetica", "normal");
                     doc.setFontSize(8);
                     doc.setTextColor(150, 150, 150);
-                    // On split le texte si trop long, mais ici ça devrait tenir
                     const splitFooter = doc.splitTextToSize(footerText, pageWidth - (margin * 2));
                     doc.text(splitFooter, pageWidth / 2, pageHeight - 12, { align: 'center' });
                 };
 
-                // --- PAGE 1: COUVERTURE ---
+                // PAGE 1
                 doc.setFillColor(255, 255, 255); 
                 doc.rect(0, 0, pageWidth, 40, 'F');
-                
                 doc.setTextColor(...softBlue); 
                 doc.setFontSize(22);
                 doc.setFont("helvetica", "bold");
@@ -449,7 +466,6 @@
                 doc.setDrawColor(...softBlue);
                 doc.line(margin, 70, pageWidth - margin, 70);
 
-                // --- ANALYSE DISTANCE ---
                 const distStats = analyzeForReport('distance', false);
                 const distImg = await generateInvisibleChart('Distances', distStats, '#4facfe');
                 
@@ -457,28 +473,23 @@
                 doc.setTextColor(...softBlue);
                 doc.setFont("helvetica", "bold");
                 doc.text("1. ANALYSE DES DISTANCES", margin, 85);
-                
                 doc.addImage(distImg, 'PNG', margin, 90, pageWidth - (margin*2), 70);
                 
-                // Commentaire Distance Nuancé
                 const distComment = generateDistanceComment(distStats);
                 doc.setFont("helvetica", "italic");
                 doc.setFontSize(10);
                 doc.setTextColor(100, 100, 100);
                 const splitDist = doc.splitTextToSize(distComment, pageWidth - (margin*2));
                 doc.text(splitDist, margin, 165);
-                
                 addFooter();
 
-                // --- PAGE 2: ANALYSE TEMPS ---
+                // PAGE 2
                 doc.addPage();
-                
                 doc.setFontSize(14);
                 doc.setTextColor(...softBlue);
                 doc.setFont("helvetica", "bold");
                 doc.text("2. ANALYSE DES TEMPS DE TRAJET", margin, 20);
                 
-                // Graphique 1 : Vélo Musculaire
                 const timeStats = analyzeForReport('time', false);
                 const timeImg = await generateInvisibleChart('Temps Musculaire', timeStats, '#4facfe');
                 
@@ -487,7 +498,6 @@
                 doc.text("Situation actuelle (Vélo Musculaire / Standard)", margin, 30);
                 doc.addImage(timeImg, 'PNG', margin, 32, pageWidth - (margin*2), 65);
                 
-                // Commentaire Temps Nuancé
                 const timeBikeStats = analyzeForReport('time', true);
                 const timeComment = generateTimeComment(timeStats, timeBikeStats);
                 doc.setFont("helvetica", "italic");
@@ -495,36 +505,30 @@
                 const splitTime = doc.splitTextToSize(timeComment, pageWidth - (margin*2));
                 doc.text(splitTime, margin, 105);
 
-                // Graphique 2 : Vélo Électrique
                 const timeBikeImg = await generateInvisibleChart('Temps Électrique', timeBikeStats, '#2ed573');
-                
                 doc.setFont("helvetica", "bold");
-                doc.setTextColor(46, 213, 115); // Vert électrique
+                doc.setTextColor(46, 213, 115);
                 doc.text("Projection comparative avec Assistance Électrique (VAE)", margin, 140);
-                
                 doc.addImage(timeBikeImg, 'PNG', margin, 142, pageWidth - (margin*2), 65);
-                
                 addFooter();
 
-                // --- PAGE 3: CARTE ---
+                // PAGE 3
                 doc.addPage();
                 doc.setFontSize(14);
                 doc.setTextColor(...softBlue);
                 doc.text("3. CARTE DE CHALEUR DES FLUX", margin, 30);
-                
                 doc.setDrawColor(220, 220, 220);
                 doc.rect(margin, 40, pageWidth - (margin*2), 100);
                 doc.setFontSize(10);
                 doc.setTextColor(180, 180, 180);
                 doc.text("Insérer ici la capture d'écran de l'interface interactive", pageWidth/2, 90, {align:'center'});
-
                 addFooter();
 
                 doc.save("Diagnostic_Mobilite_Marius.pdf");
-                showSuccess("PDF généré avec succès !");
+                alert("PDF généré avec succès !");
             } catch (e) {
                 console.error(e);
-                showError("Erreur PDF.");
+                alert("Erreur PDF.");
             } finally {
                 pdfBtn.textContent = "Export Audit PDF";
                 pdfBtn.disabled = false;
@@ -584,8 +588,6 @@
             });
         }
 
-        // --- GENERATION DES COMMENTAIRES NUANCÉS (MIS À JOUR) ---
-
         function generateDistanceComment(stats) {
             const shortDist = stats.percentages['0-2 km'] + stats.percentages['2-5 km'];
             const mediumDist = stats.percentages['5-10 km'];
@@ -602,14 +604,12 @@
                 text += "L'éloignement géographique est marqué sur la très courte distance. ";
             }
 
-            // Nuance 5-10km (Urban/Compétitif)
             if (mediumDist > 10 || under10 > 40) {
                 text += `Si l'on élargit le périmètre, notons que ${under10.toFixed(1)}% des effectifs se situent à moins de 10km. `;
                 text += "En milieu urbain, ce sont des distances (5-10km) où le vélo est souvent plus compétitif que la voiture en temps de trajet réel, tout en restant réalisable par la très grande majorité de la population, particulièrement avec l'assistance électrique. ";
             } else {
                 text += "Au-delà de 10km, le covoiturage ou les transports en commun deviennent des options stratégiques plus pertinentes. ";
             }
-
             return text;
         }
 
@@ -626,7 +626,6 @@
                 const gain = (under15Bike - under15Car).toFixed(1);
                 text += `L'introduction du vélo électrique permettrait d'augmenter cette proportion de +${gain} points. `;
                 
-                // Nuance intermédiaire 15-20 min ou faible proportion < 15min
                 if (under15Bike < 15) {
                     text += `Bien que la part des trajets de moins de 15 minutes reste modeste, l'assistance électrique permettrait à ${countUnder20Bike} employés de se rendre au travail en moins de 20 minutes. Ce temps de trajet reste extrêmement crédible et attractif pour la grande majorité de la population. `;
                 } else {
@@ -645,4 +644,4 @@
         }
     </script>
 </body>
-</html>eof
+</html>
